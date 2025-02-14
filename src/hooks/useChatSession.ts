@@ -8,6 +8,7 @@ import {chatSessionStore, modelStore} from '../store';
 
 import {MessageType, User} from '../utils/types';
 import {applyChatTemplate, convertToChatMessages} from '../utils/chat';
+import Rag from '../native/Rag';
 
 export const useChatSession = (
   currentMessageInfo: React.MutableRefObject<{
@@ -73,7 +74,7 @@ export const useChatSession = (
       author: user,
       createdAt: Date.now(),
       id: randId(),
-      text: message.text,
+      text: await Rag.getPrompt(message.text),
       type: 'text',
       metadata: {
         contextId: context.id,

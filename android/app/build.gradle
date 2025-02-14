@@ -121,6 +121,10 @@ android {
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
     }
+    packagingOptions {
+        exclude("LICENSE-EPL-1.0.txt")
+        exclude("LICENSE-EDL-1.0.txt")
+    }
 }
 
 dependencies {
@@ -134,6 +138,7 @@ dependencies {
         implementation jscFlavor
     }
 
+    implementation project(":rag-android")
     implementation platform('com.google.firebase:firebase-bom:32.7.0')
     implementation 'com.google.firebase:firebase-appcheck-playintegrity'
     implementation 'com.google.firebase:firebase-appcheck-debug'

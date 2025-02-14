@@ -1,20 +1,20 @@
 import * as React from 'react';
-import {Dimensions, StyleSheet} from 'react-native';
+import { Dimensions, StyleSheet } from 'react-native';
 
-import {observer} from 'mobx-react';
-import {NavigationContainer} from '@react-navigation/native';
-import {Provider as PaperProvider} from 'react-native-paper';
-import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
-import {createDrawerNavigator} from '@react-navigation/drawer';
-import {SafeAreaProvider} from 'react-native-safe-area-context';
+import { observer } from 'mobx-react';
+import { NavigationContainer } from '@react-navigation/native';
+import { Provider as PaperProvider } from 'react-native-paper';
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import {
   gestureHandlerRootHOC,
   GestureHandlerRootView,
 } from 'react-native-gesture-handler';
-import {KeyboardProvider} from 'react-native-keyboard-controller';
+import { KeyboardProvider } from 'react-native-keyboard-controller';
 
-import {useTheme} from './src/hooks';
-import {Theme} from './src/utils/types';
+import { useTheme } from './src/hooks';
+import { Theme } from './src/utils/types';
 
 import {
   SidebarContent,
@@ -28,6 +28,7 @@ import {
   SettingsScreen,
   BenchmarkScreen,
 } from './src/screens';
+import Rag from './src/native/Rag';
 
 const Drawer = createDrawerNavigator();
 
@@ -36,6 +37,25 @@ const screenWidth = Dimensions.get('window').width;
 const App = observer(() => {
   const theme = useTheme();
   const styles = createStyles(theme);
+
+  React.useEffect(() => {
+
+    console.log("Starting useEffect")
+
+    async function runRag() {
+      try {
+        const loaded = await Rag.loadFromAndroidAssets(
+          "tokenizer.json",
+          "embeddings.csv",
+          "chunks.csv"
+        );
+      } catch (error) {
+        console.error("Error in RAG loading:", error);
+      }
+    }
+
+    runRag()
+  }, [])
 
   return (
     <GestureHandlerRootView style={styles.root}>
